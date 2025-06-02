@@ -165,6 +165,44 @@ function setupBattleControls() {
             resetBattle();
         }
     });
+    
+    // Setup agent toggle controls
+    setupAgentToggle();
+}
+
+function setupAgentToggle() {
+    const toggleBoth = document.getElementById('toggle-both');
+    const toggleLeft = document.getElementById('toggle-left');
+    const toggleRight = document.getElementById('toggle-right');
+    const chatContainer = document.querySelector('.chat-container');
+    const leftAgent = document.querySelector('.left-agent');
+    const rightAgent = document.querySelector('.right-agent');
+    
+    function setActiveToggle(activeButton) {
+        [toggleBoth, toggleLeft, toggleRight].forEach(btn => btn.classList.remove('active'));
+        activeButton.classList.add('active');
+    }
+    
+    toggleBoth.addEventListener('click', () => {
+        chatContainer.classList.remove('single-agent');
+        leftAgent.classList.remove('visible');
+        rightAgent.classList.remove('visible');
+        setActiveToggle(toggleBoth);
+    });
+    
+    toggleLeft.addEventListener('click', () => {
+        chatContainer.classList.add('single-agent');
+        leftAgent.classList.add('visible');
+        rightAgent.classList.remove('visible');
+        setActiveToggle(toggleLeft);
+    });
+    
+    toggleRight.addEventListener('click', () => {
+        chatContainer.classList.add('single-agent');
+        rightAgent.classList.add('visible');
+        leftAgent.classList.remove('visible');
+        setActiveToggle(toggleRight);
+    });
 }
 
 function resetBattle() {
@@ -289,8 +327,8 @@ function updateAgentMessage(agent, message) {
     messageContainer.appendChild(messageElement);
     outputElement.appendChild(messageContainer);
     
-    // Scroll to bottom
-    outputElement.scrollTop = outputElement.scrollHeight;
+    // Auto-scroll to newest message
+    scrollToBottom(outputElement);
 }
 
 function addMessageToChat(agent, message) {
@@ -315,8 +353,8 @@ function addMessageToChat(agent, message) {
     messageContainer.appendChild(messageElement);
     outputElement.appendChild(messageContainer);
     
-    // Scroll to bottom
-    outputElement.scrollTop = outputElement.scrollHeight;
+    // Auto-scroll to newest message
+    scrollToBottom(outputElement);
 }
 
 function addIncomingMessageToChat(agent, message) {
@@ -342,8 +380,14 @@ function addIncomingMessageToChat(agent, message) {
     messageContainer.appendChild(messageElement);
     outputElement.appendChild(messageContainer);
     
-    // Scroll to bottom
-    outputElement.scrollTop = outputElement.scrollHeight;
+    // Auto-scroll to newest message
+    scrollToBottom(outputElement);
+}
+
+function scrollToBottom(element) {
+    setTimeout(() => {
+        element.scrollTop = element.scrollHeight;
+    }, 100);
 }
 
 function switchTurn(lastResponse) {

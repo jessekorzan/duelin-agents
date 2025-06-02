@@ -1,31 +1,44 @@
 
 /* Dual Chat Interface Styles */
 .dual-chat {
-    min-height: 100dvh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 100vw;
+    width: 100vw;
     margin: 0;
-    padding: 1rem;
-    gap: 1rem;
+    padding: 0;
+    gap: 0;
+    overflow: hidden;
 }
 
 .chat-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 0;
     flex: 1;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
+
+.chat-container.single-agent {
+    grid-template-columns: 1fr;
+}
+
+.chat-container.single-agent .agent-chat:not(.visible) {
+    display: none;
 }
 
 .agent-chat {
     display: flex;
     flex-direction: column;
-    border: 2px solid var(--blueLight);
-    border-radius: 1rem;
+    border-right: 1px solid var(--boxShadow);
     overflow: hidden;
     background: var(--white);
+    height: 100%;
+}
+
+.agent-chat:last-child {
+    border-right: none;
 }
 
 .left-agent {
@@ -75,6 +88,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    scroll-behavior: smooth;
 }
 
 .message-container {
@@ -158,6 +172,40 @@
     padding: 1rem;
     background: var(--white);
     border-top: 1px solid var(--boxShadow);
+    height: 80px;
+    box-sizing: border-box;
+}
+
+.agent-toggle {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-left: auto;
+}
+
+.toggle-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--boxShadow);
+    border-radius: 0.25rem;
+    background: var(--white);
+    color: var(--black);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-button.active {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+}
+
+.toggle-button:hover {
+    background: var(--blueLight);
+}
+
+.toggle-button.active:hover {
+    background: var(--blueDark);
 }
 
 .control-button {
