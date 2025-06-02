@@ -1,8 +1,6 @@
 
 // Core configuration and constants
 export const CONFIG = {
-    webhookUrl: 'https://n8n-service-u37x.onrender.com/webhook/agent-pmm',
-    webhookImage: 'https://n8n-service-u37x.onrender.com/webhook/pmm-image',
     maxStoredMessages: 15
 };
 
