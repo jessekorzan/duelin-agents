@@ -119,15 +119,21 @@ function startBattle() {
     // Initialize battle state
     battleState.isRunning = true;
     battleState.isPaused = false;
-    battleState.turnCount = 0;
+    battleState.turnCount = 1;
     battleState.currentAgent = agentConfig.startingAgent;
     battleState.lastMessage = agentConfig.starterPrompt;
     
+    // Show the starter prompt from the chosen agent on both sides
+    addMessageToChat(agentConfig.startingAgent, agentConfig.starterPrompt);
+    
     updateTurnDisplay();
     
-    // Start the conversation
+    // Start the conversation by sending to the OTHER agent (they respond to the starter)
+    const respondingAgent = agentConfig.startingAgent === 'left' ? 'right' : 'left';
+    battleState.currentAgent = respondingAgent;
+    
     setTimeout(() => {
-        sendMessageToAgent(battleState.currentAgent, agentConfig.starterPrompt);
+        sendMessageToAgent(respondingAgent, agentConfig.starterPrompt);
     }, 1000);
 }
 
@@ -252,7 +258,7 @@ function updateAgentMessage(agent, message) {
     
     // Add the updated message
     const messageElement = document.createElement('div');
-    messageElement.className = 'agent-message';
+    messageElement.className = 'agent-message outgoing';
     messageElement.dataset.temp = 'true';
     messageElement.innerHTML = message;
     outputElement.appendChild(messageElement);
@@ -265,7 +271,19 @@ function addMessageToChat(agent, message) {
     const outputElement = document.getElementById(`${agent}-output`);
     
     const messageElement = document.createElement('div');
-    messageElement.className = 'agent-message';
+    messageElement.className = 'agent-message outgoing';
+    messageElement.innerHTML = message;
+    outputElement.appendChild(messageElement);
+    
+    // Scroll to bottom
+    outputElement.scrollTop = outputElement.scrollHeight;
+}
+
+function addIncomingMessageToChat(agent, message) {
+    const outputElement = document.getElementById(`${agent}-output`);
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = 'agent-message incoming';
     messageElement.innerHTML = message;
     outputElement.appendChild(messageElement);
     
@@ -283,8 +301,12 @@ function switchTurn(lastResponse) {
         lastMessage.dataset.temp = 'false';
     }
     
+    // Mirror the response on both sides - show as incoming message on the other side
+    const otherAgent = battleState.currentAgent === 'left' ? 'right' : 'left';
+    addIncomingMessageToChat(otherAgent, lastResponse);
+    
     // Switch to the other agent
-    battleState.currentAgent = battleState.currentAgent === 'left' ? 'right' : 'left';
+    battleState.currentAgent = otherAgent;
     battleState.turnCount++;
     battleState.lastMessage = lastResponse;
     

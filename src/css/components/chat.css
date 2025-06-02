@@ -84,16 +84,36 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.left-agent .agent-message {
-    background: var(--blueLight);
+.agent-message.outgoing {
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.agent-message.incoming {
     align-self: flex-start;
+    margin-right: auto;
+    opacity: 0.8;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.left-agent .agent-message.outgoing {
+    background: var(--blueLight);
+    border-bottom-right-radius: 0.25rem;
+}
+
+.left-agent .agent-message.incoming {
+    background: var(--grayLight, #f5f5f5);
     border-bottom-left-radius: 0.25rem;
 }
 
-.right-agent .agent-message {
+.right-agent .agent-message.outgoing {
     background: var(--purpleLight);
-    align-self: flex-end;
     border-bottom-right-radius: 0.25rem;
+}
+
+.right-agent .agent-message.incoming {
+    background: var(--grayLight, #f5f5f5);
+    border-bottom-left-radius: 0.25rem;
 }
 
 .chat-input-area {
