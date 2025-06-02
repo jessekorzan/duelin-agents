@@ -132,6 +132,10 @@ function startBattle() {
     // Update agent names in headers
     updateAgentNames();
     
+    // Clear any existing messages from both chat outputs
+    document.getElementById('left-output').innerHTML = '';
+    document.getElementById('right-output').innerHTML = '';
+    
     // Show the starter prompt from the chosen agent on both sides
     addMessageToChat(agentConfig.startingAgent, agentConfig.starterPrompt);
     
