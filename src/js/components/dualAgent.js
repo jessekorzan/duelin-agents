@@ -368,11 +368,12 @@ function addIncomingMessageToChat(agent, message) {
     const messageContainer = document.createElement('div');
     messageContainer.className = 'message-container incoming';
     
-    // Add agent label (this is the OTHER agent's message)
+    // Add agent label - this should be the CURRENT agent (who's responding)
     const labelElement = document.createElement('div');
     labelElement.className = 'message-label';
-    const otherAgent = agent === 'left' ? 'right' : 'left';
-    const agentName = agentConfig[otherAgent].name || (otherAgent === 'left' ? 'Agent Left' : 'Agent Right');
+    // The message is FROM the current agent, so show their name
+    const respondingAgent = battleState.currentAgent;
+    const agentName = agentConfig[respondingAgent].name || (respondingAgent === 'left' ? 'Agent Left' : 'Agent Right');
     labelElement.textContent = `${agentName}:`;
     
     // Create message element
