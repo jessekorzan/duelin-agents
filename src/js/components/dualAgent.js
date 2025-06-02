@@ -2,8 +2,8 @@
 import { getSessionID } from '../core/session.js';
 
 let agentConfig = {
-    left: { webhook: '', imageWebhook: '' },
-    right: { webhook: '', imageWebhook: '' },
+    left: { name: '', webhook: '', imageWebhook: '' },
+    right: { name: '', webhook: '', imageWebhook: '' },
     starterPrompt: '',
     startingAgent: 'left'
 };
@@ -36,8 +36,8 @@ function setupSetupScreen() {
     
     // Add auto-save on input changes for better UX
     const inputs = [
-        'left-webhook', 'left-image-webhook', 
-        'right-webhook', 'right-image-webhook',
+        'left-name', 'left-webhook', 'left-image-webhook', 
+        'right-name', 'right-webhook', 'right-image-webhook',
         'starter-prompt', 'starting-agent'
     ];
     
@@ -55,10 +55,12 @@ function setupSetupScreen() {
 function saveCurrentFormState() {
     const currentConfig = {
         left: {
+            name: document.getElementById('left-name').value,
             webhook: document.getElementById('left-webhook').value,
             imageWebhook: document.getElementById('left-image-webhook').value
         },
         right: {
+            name: document.getElementById('right-name').value,
             webhook: document.getElementById('right-webhook').value,
             imageWebhook: document.getElementById('right-image-webhook').value
         },
@@ -78,8 +80,10 @@ function validateConfig() {
 }
 
 function saveConfig() {
+    agentConfig.left.name = document.getElementById('left-name').value;
     agentConfig.left.webhook = document.getElementById('left-webhook').value;
     agentConfig.left.imageWebhook = document.getElementById('left-image-webhook').value;
+    agentConfig.right.name = document.getElementById('right-name').value;
     agentConfig.right.webhook = document.getElementById('right-webhook').value;
     agentConfig.right.imageWebhook = document.getElementById('right-image-webhook').value;
     agentConfig.starterPrompt = document.getElementById('starter-prompt').value;
@@ -96,8 +100,10 @@ function loadSavedConfig() {
             const config = JSON.parse(savedConfig);
             
             // Populate form fields
+            document.getElementById('left-name').value = config.left?.name || '';
             document.getElementById('left-webhook').value = config.left?.webhook || '';
             document.getElementById('left-image-webhook').value = config.left?.imageWebhook || '';
+            document.getElementById('right-name').value = config.right?.name || '';
             document.getElementById('right-webhook').value = config.right?.webhook || '';
             document.getElementById('right-image-webhook').value = config.right?.imageWebhook || '';
             document.getElementById('starter-prompt').value = config.starterPrompt || '';
@@ -122,6 +128,9 @@ function startBattle() {
     battleState.turnCount = 1;
     battleState.currentAgent = agentConfig.startingAgent;
     battleState.lastMessage = agentConfig.starterPrompt;
+    
+    // Update agent names in headers
+    updateAgentNames();
     
     // Show the starter prompt from the chosen agent on both sides
     addMessageToChat(agentConfig.startingAgent, agentConfig.starterPrompt);
@@ -339,6 +348,17 @@ function updateAgentStatus() {
         leftStatus.textContent = battleState.currentAgent === 'left' ? 'Active' : 'Waiting';
         rightStatus.textContent = battleState.currentAgent === 'right' ? 'Active' : 'Waiting';
     }
+}
+
+function updateAgentNames() {
+    const leftNameElement = document.getElementById('left-agent-name');
+    const rightNameElement = document.getElementById('right-agent-name');
+    
+    const leftName = agentConfig.left.name || 'Agent Left';
+    const rightName = agentConfig.right.name || 'Agent Right';
+    
+    leftNameElement.textContent = `🤖 ${leftName}`;
+    rightNameElement.textContent = `🤖 ${rightName}`;
 }
 
 // Expose functions for dev tools

@@ -25,12 +25,14 @@
             <div class="agent-config">
                 <div class="agent-section">
                     <h3>🤖 Agent Left</h3>
+                    <input type="text" id="left-name" placeholder="Agent name (e.g., Claude, GPT-4)" />
                     <input type="url" id="left-webhook" placeholder="Chat webhook URL" />
                     <input type="url" id="left-image-webhook" placeholder="Image webhook URL" />
                 </div>
                 
                 <div class="agent-section">
                     <h3>🤖 Agent Right</h3>
+                    <input type="text" id="right-name" placeholder="Agent name (e.g., Claude, GPT-4)" />
                     <input type="url" id="right-webhook" placeholder="Chat webhook URL" />
                     <input type="url" id="right-image-webhook" placeholder="Image webhook URL" />
                 </div>
@@ -58,7 +60,7 @@
         <div class="chat-container">
             <div class="agent-chat left-agent">
                 <div class="agent-header">
-                    <h3>🤖 Agent Left</h3>
+                    <h3 id="left-agent-name">🤖 Agent Left</h3>
                     <div class="agent-status" id="left-status">Ready</div>
                 </div>
                 <div class="chat-output" id="left-output"></div>
@@ -69,7 +71,7 @@
             
             <div class="agent-chat right-agent">
                 <div class="agent-header">
-                    <h3>🤖 Agent Right</h3>
+                    <h3 id="right-agent-name">🤖 Agent Right</h3>
                     <div class="agent-status" id="right-status">Ready</div>
                 </div>
                 <div class="chat-output" id="right-output"></div>
