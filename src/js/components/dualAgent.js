@@ -327,8 +327,18 @@ function updateAgentMessage(agent, message) {
     messageElement.dataset.temp = 'true';
     messageElement.innerHTML = message;
     
+    // Add webhook URL for debugging
+    const webhookElement = document.createElement('div');
+    webhookElement.className = 'webhook-debug';
+    webhookElement.style.fontSize = '0.7rem';
+    webhookElement.style.color = '#666';
+    webhookElement.style.marginTop = '0.25rem';
+    webhookElement.style.fontFamily = 'monospace';
+    webhookElement.textContent = `🔗 ${agentConfig[agent].webhook}`;
+    
     messageContainer.appendChild(labelElement);
     messageContainer.appendChild(messageElement);
+    messageContainer.appendChild(webhookElement);
     outputElement.appendChild(messageContainer);
     
     // Auto-scroll to newest message
@@ -381,8 +391,18 @@ function addIncomingMessageToChat(agent, message) {
     messageElement.className = 'agent-message incoming';
     messageElement.innerHTML = message;
     
+    // Add webhook URL for debugging
+    const webhookElement = document.createElement('div');
+    webhookElement.className = 'webhook-debug';
+    webhookElement.style.fontSize = '0.7rem';
+    webhookElement.style.color = '#666';
+    webhookElement.style.marginTop = '0.25rem';
+    webhookElement.style.fontFamily = 'monospace';
+    webhookElement.textContent = `🔗 ${agentConfig[respondingAgent].webhook}`;
+    
     messageContainer.appendChild(labelElement);
     messageContainer.appendChild(messageElement);
+    messageContainer.appendChild(webhookElement);
     outputElement.appendChild(messageContainer);
     
     // Auto-scroll to newest message
