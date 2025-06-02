@@ -72,6 +72,14 @@
     margin-bottom: 0;
 }
 
+.agent-status {
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    min-width: 80px;
+}
+
 .starter-config {
     margin-bottom: 2rem;
 }

@@ -236,9 +236,9 @@ async function sendMessageToAgent(agent, message) {
     console.log(`Sending message to ${agent} agent using webhook:`, config.webhook);
     console.log(`Message being sent:`, message.substring(0, 100) + '...');
     
-    // Update status and show spinner
+    // Update status to show thinking indicator
     statusElement.textContent = 'Thinking...';
-    spinnerElement.style.display = 'block';
+    statusElement.style.animation = 'thinking 0.75s forwards ease-in-out infinite';
     
     try {
         const response = await fetch(config.webhook, {
@@ -260,17 +260,17 @@ async function sendMessageToAgent(agent, message) {
             updateAgentMessage(agent, responseText);
         });
         
-        // Hide spinner and update status
-        spinnerElement.style.display = 'none';
+        // Reset status and remove thinking animation
         statusElement.textContent = 'Ready';
+        statusElement.style.animation = '';
         
         // Switch to the other agent
         switchTurn(responseText);
         
     } catch (error) {
         console.error(`Error with ${agent} agent:`, error);
-        spinnerElement.style.display = 'none';
         statusElement.textContent = 'Error';
+        statusElement.style.animation = '';
         
         // Add error message to chat
         addMessageToChat(agent, `❌ Error: ${error.message}`);
