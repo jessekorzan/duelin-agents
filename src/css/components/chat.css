@@ -77,21 +77,46 @@
     gap: 1rem;
 }
 
-.agent-message {
-    padding: 1rem;
-    border-radius: 0.75rem;
+.message-container {
+    display: flex;
+    flex-direction: column;
     max-width: 90%;
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.agent-message.outgoing {
+.message-container.outgoing {
     align-self: flex-end;
     margin-left: auto;
 }
 
-.agent-message.incoming {
+.message-container.incoming {
     align-self: flex-start;
     margin-right: auto;
+}
+
+.message-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+    padding: 0 0.5rem;
+}
+
+.message-container.outgoing .message-label {
+    text-align: right;
+}
+
+.message-container.incoming .message-label {
+    text-align: left;
+}
+
+.agent-message {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    max-width: 100%;
+}
+
+.agent-message.incoming {
     opacity: 0.8;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }

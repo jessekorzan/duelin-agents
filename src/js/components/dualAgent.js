@@ -259,18 +259,31 @@ function readAgentStream(reader, onChunk) {
 function updateAgentMessage(agent, message) {
     const outputElement = document.getElementById(`${agent}-output`);
     
-    // Remove the last message if it exists
-    const lastMessage = outputElement.querySelector('.agent-message:last-child');
-    if (lastMessage && lastMessage.dataset.temp === 'true') {
-        lastMessage.remove();
+    // Remove the last message container if it exists
+    const lastContainer = outputElement.querySelector('.message-container:last-child');
+    if (lastContainer && lastContainer.querySelector('.agent-message[data-temp="true"]')) {
+        lastContainer.remove();
     }
+    
+    // Create message container with label
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'message-container outgoing';
+    
+    // Add agent label
+    const labelElement = document.createElement('div');
+    labelElement.className = 'message-label';
+    const agentName = agentConfig[agent].name || (agent === 'left' ? 'Agent Left' : 'Agent Right');
+    labelElement.textContent = `${agentName}:`;
     
     // Add the updated message
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message outgoing';
     messageElement.dataset.temp = 'true';
     messageElement.innerHTML = message;
-    outputElement.appendChild(messageElement);
+    
+    messageContainer.appendChild(labelElement);
+    messageContainer.appendChild(messageElement);
+    outputElement.appendChild(messageContainer);
     
     // Scroll to bottom
     outputElement.scrollTop = outputElement.scrollHeight;
@@ -279,10 +292,24 @@ function updateAgentMessage(agent, message) {
 function addMessageToChat(agent, message) {
     const outputElement = document.getElementById(`${agent}-output`);
     
+    // Create message container with label
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'message-container outgoing';
+    
+    // Add agent label
+    const labelElement = document.createElement('div');
+    labelElement.className = 'message-label';
+    const agentName = agentConfig[agent].name || (agent === 'left' ? 'Agent Left' : 'Agent Right');
+    labelElement.textContent = `${agentName}:`;
+    
+    // Create message element
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message outgoing';
     messageElement.innerHTML = message;
-    outputElement.appendChild(messageElement);
+    
+    messageContainer.appendChild(labelElement);
+    messageContainer.appendChild(messageElement);
+    outputElement.appendChild(messageContainer);
     
     // Scroll to bottom
     outputElement.scrollTop = outputElement.scrollHeight;
@@ -291,10 +318,25 @@ function addMessageToChat(agent, message) {
 function addIncomingMessageToChat(agent, message) {
     const outputElement = document.getElementById(`${agent}-output`);
     
+    // Create message container with label
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'message-container incoming';
+    
+    // Add agent label (this is the OTHER agent's message)
+    const labelElement = document.createElement('div');
+    labelElement.className = 'message-label';
+    const otherAgent = agent === 'left' ? 'right' : 'left';
+    const agentName = agentConfig[otherAgent].name || (otherAgent === 'left' ? 'Agent Left' : 'Agent Right');
+    labelElement.textContent = `${agentName}:`;
+    
+    // Create message element
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message incoming';
     messageElement.innerHTML = message;
-    outputElement.appendChild(messageElement);
+    
+    messageContainer.appendChild(labelElement);
+    messageContainer.appendChild(messageElement);
+    outputElement.appendChild(messageContainer);
     
     // Scroll to bottom
     outputElement.scrollTop = outputElement.scrollHeight;
