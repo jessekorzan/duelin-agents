@@ -136,9 +136,16 @@ function startBattle() {
     document.getElementById('left-output').innerHTML = '';
     document.getElementById('right-output').innerHTML = '';
     
-    // Show the starter prompt on both sides
-    addMessageToChat('left', agentConfig.starterPrompt);
-    addMessageToChat('right', agentConfig.starterPrompt);
+    // Show the starter prompt on both sides with correct styling
+    if (agentConfig.startingAgent === 'left') {
+        // Left agent sent the starter prompt, right agent receives it
+        addMessageToChat('left', agentConfig.starterPrompt);
+        addIncomingMessageToChat('right', agentConfig.starterPrompt, 'left');
+    } else {
+        // Right agent sent the starter prompt, left agent receives it
+        addMessageToChat('right', agentConfig.starterPrompt);
+        addIncomingMessageToChat('left', agentConfig.starterPrompt, 'right');
+    }
     
     updateTurnDisplay();
     
@@ -372,19 +379,19 @@ function addMessageToChat(agent, message) {
     scrollToBottom(outputElement);
 }
 
-function addIncomingMessageToChat(agent, message) {
+function addIncomingMessageToChat(agent, message, fromAgent = null) {
     const outputElement = document.getElementById(`${agent}-output`);
     
     // Create message container with label
     const messageContainer = document.createElement('div');
     messageContainer.className = 'message-container incoming';
     
-    // Add agent label - this should be the CURRENT agent (who's responding)
+    // Add agent label - determine who sent this message
     const labelElement = document.createElement('div');
     labelElement.className = 'message-label';
-    // The message is FROM the current agent, so show their name
-    const respondingAgent = battleState.currentAgent;
-    const agentName = agentConfig[respondingAgent].name || (respondingAgent === 'left' ? 'Agent Left' : 'Agent Right');
+    // Use the provided fromAgent or fall back to currentAgent
+    const sendingAgent = fromAgent || battleState.currentAgent;
+    const agentName = agentConfig[sendingAgent].name || (sendingAgent === 'left' ? 'Agent Left' : 'Agent Right');
     labelElement.textContent = `${agentName}:`;
     
     // Create message element
@@ -392,18 +399,24 @@ function addIncomingMessageToChat(agent, message) {
     messageElement.className = 'agent-message incoming';
     messageElement.innerHTML = message;
     
-    // Add webhook URL for debugging
-    const webhookElement = document.createElement('div');
-    webhookElement.className = 'webhook-debug';
-    webhookElement.style.fontSize = '0.7rem';
-    webhookElement.style.color = '#666';
-    webhookElement.style.marginTop = '0.25rem';
-    webhookElement.style.fontFamily = 'monospace';
-    webhookElement.textContent = `🔗 ${agentConfig[respondingAgent].webhook}`;
+    // Add webhook URL for debugging (only if we have a valid sending agent)
+    if (agentConfig[sendingAgent]?.webhook) {
+        const webhookElement = document.createElement('div');
+        webhookElement.className = 'webhook-debug';
+        webhookElement.style.fontSize = '0.7rem';
+        webhookElement.style.color = '#666';
+        webhookElement.style.marginTop = '0.25rem';
+        webhookElement.style.fontFamily = 'monospace';
+        webhookElement.textContent = `🔗 ${agentConfig[sendingAgent].webhook}`;
+        
+        messageContainer.appendChild(labelElement);
+        messageContainer.appendChild(messageElement);
+        messageContainer.appendChild(webhookElement);
+    } else {
+        messageContainer.appendChild(labelElement);
+        messageContainer.appendChild(messageElement);
+    }
     
-    messageContainer.appendChild(labelElement);
-    messageContainer.appendChild(messageElement);
-    messageContainer.appendChild(webhookElement);
     outputElement.appendChild(messageContainer);
     
     // Auto-scroll to newest message
@@ -428,7 +441,7 @@ function switchTurn(lastResponse) {
     
     // Mirror the response on both sides - show as incoming message on the other side
     const otherAgent = battleState.currentAgent === 'left' ? 'right' : 'left';
-    addIncomingMessageToChat(otherAgent, lastResponse);
+    addIncomingMessageToChat(otherAgent, lastResponse, battleState.currentAgent);
     
     // Switch to the other agent for the next turn
     battleState.currentAgent = otherAgent;
