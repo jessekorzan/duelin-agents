@@ -136,8 +136,9 @@ function startBattle() {
     document.getElementById('left-output').innerHTML = '';
     document.getElementById('right-output').innerHTML = '';
     
-    // Show the starter prompt from the chosen agent on both sides
-    addMessageToChat(agentConfig.startingAgent, agentConfig.starterPrompt);
+    // Show the starter prompt on both sides
+    addMessageToChat('left', agentConfig.starterPrompt);
+    addMessageToChat('right', agentConfig.starterPrompt);
     
     updateTurnDisplay();
     
