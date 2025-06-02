@@ -19,6 +19,7 @@ let battleState = {
 export function setupDualAgentApp() {
     setupSetupScreen();
     setupBattleControls();
+    loadSavedConfig();
 }
 
 function setupSetupScreen() {
@@ -32,6 +33,40 @@ function setupSetupScreen() {
             alert('Please fill in all required fields!');
         }
     });
+    
+    // Add auto-save on input changes for better UX
+    const inputs = [
+        'left-webhook', 'left-image-webhook', 
+        'right-webhook', 'right-image-webhook',
+        'starter-prompt', 'starting-agent'
+    ];
+    
+    inputs.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('input', () => {
+                // Auto-save config when user types
+                setTimeout(saveCurrentFormState, 500);
+            });
+        }
+    });
+}
+
+function saveCurrentFormState() {
+    const currentConfig = {
+        left: {
+            webhook: document.getElementById('left-webhook').value,
+            imageWebhook: document.getElementById('left-image-webhook').value
+        },
+        right: {
+            webhook: document.getElementById('right-webhook').value,
+            imageWebhook: document.getElementById('right-image-webhook').value
+        },
+        starterPrompt: document.getElementById('starter-prompt').value,
+        startingAgent: document.getElementById('starting-agent').value
+    };
+    
+    localStorage.setItem('duelAgentsConfig', JSON.stringify(currentConfig));
 }
 
 function validateConfig() {
@@ -49,6 +84,31 @@ function saveConfig() {
     agentConfig.right.imageWebhook = document.getElementById('right-image-webhook').value;
     agentConfig.starterPrompt = document.getElementById('starter-prompt').value;
     agentConfig.startingAgent = document.getElementById('starting-agent').value;
+    
+    // Save to localStorage
+    localStorage.setItem('duelAgentsConfig', JSON.stringify(agentConfig));
+}
+
+function loadSavedConfig() {
+    const savedConfig = localStorage.getItem('duelAgentsConfig');
+    if (savedConfig) {
+        try {
+            const config = JSON.parse(savedConfig);
+            
+            // Populate form fields
+            document.getElementById('left-webhook').value = config.left?.webhook || '';
+            document.getElementById('left-image-webhook').value = config.left?.imageWebhook || '';
+            document.getElementById('right-webhook').value = config.right?.webhook || '';
+            document.getElementById('right-image-webhook').value = config.right?.imageWebhook || '';
+            document.getElementById('starter-prompt').value = config.starterPrompt || '';
+            document.getElementById('starting-agent').value = config.startingAgent || 'left';
+            
+            // Update agentConfig object
+            agentConfig = { ...agentConfig, ...config };
+        } catch (error) {
+            console.error('Error loading saved config:', error);
+        }
+    }
 }
 
 function startBattle() {
