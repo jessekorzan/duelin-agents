@@ -238,6 +238,7 @@ async function sendMessageToAgent(agent, message) {
     
     // Update status to show thinking indicator
     statusElement.textContent = 'Thinking...';
+    statusElement.className = 'agent-status thinking';
     statusElement.style.animation = 'thinking 0.75s forwards ease-in-out infinite';
     
     try {
@@ -262,6 +263,7 @@ async function sendMessageToAgent(agent, message) {
         
         // Reset status and remove thinking animation
         statusElement.textContent = 'Ready';
+        statusElement.className = 'agent-status ready';
         statusElement.style.animation = '';
         
         // Switch to the other agent
@@ -270,6 +272,7 @@ async function sendMessageToAgent(agent, message) {
     } catch (error) {
         console.error(`Error with ${agent} agent:`, error);
         statusElement.textContent = 'Error';
+        statusElement.className = 'agent-status error';
         statusElement.style.animation = '';
         
         // Add error message to chat
@@ -464,13 +467,26 @@ function updateAgentStatus() {
     
     if (battleState.isPaused) {
         leftStatus.textContent = 'Paused';
+        leftStatus.className = 'agent-status paused';
         rightStatus.textContent = 'Paused';
+        rightStatus.className = 'agent-status paused';
     } else if (!battleState.isRunning) {
         leftStatus.textContent = 'Ready';
+        leftStatus.className = 'agent-status ready';
         rightStatus.textContent = 'Ready';
+        rightStatus.className = 'agent-status ready';
     } else {
-        leftStatus.textContent = battleState.currentAgent === 'left' ? 'Active' : 'Waiting';
-        rightStatus.textContent = battleState.currentAgent === 'right' ? 'Active' : 'Waiting';
+        if (battleState.currentAgent === 'left') {
+            leftStatus.textContent = 'Active';
+            leftStatus.className = 'agent-status active';
+            rightStatus.textContent = 'Waiting';
+            rightStatus.className = 'agent-status waiting';
+        } else {
+            leftStatus.textContent = 'Waiting';
+            leftStatus.className = 'agent-status waiting';
+            rightStatus.textContent = 'Active';
+            rightStatus.className = 'agent-status active';
+        }
     }
 }
 

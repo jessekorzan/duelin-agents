@@ -78,6 +78,37 @@
     border-radius: 0.25rem;
     text-align: center;
     min-width: 80px;
+    transition: all 0.3s ease;
+}
+
+.agent-status.thinking {
+    background-color: #ff4444;
+    color: white;
+}
+
+.agent-status.waiting {
+    background-color: #ff9500;
+    color: white;
+}
+
+.agent-status.active {
+    background-color: #22c55e;
+    color: white;
+}
+
+.agent-status.ready {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: inherit;
+}
+
+.agent-status.error {
+    background-color: #dc2626;
+    color: white;
+}
+
+.agent-status.paused {
+    background-color: #6b7280;
+    color: white;
 }
 
 .starter-config {
