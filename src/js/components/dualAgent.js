@@ -230,6 +230,10 @@ async function sendMessageToAgent(agent, message) {
     const spinnerElement = document.querySelector(`.${agent}-spinner`);
     const statusElement = document.getElementById(`${agent}-status`);
     
+    // Debug logging
+    console.log(`Sending message to ${agent} agent using webhook:`, config.webhook);
+    console.log(`Message being sent:`, message.substring(0, 100) + '...');
+    
     // Update status and show spinner
     statusElement.textContent = 'Thinking...';
     spinnerElement.style.display = 'block';
@@ -404,7 +408,7 @@ function switchTurn(lastResponse) {
     const otherAgent = battleState.currentAgent === 'left' ? 'right' : 'left';
     addIncomingMessageToChat(otherAgent, lastResponse);
     
-    // Switch to the other agent
+    // Switch to the other agent for the next turn
     battleState.currentAgent = otherAgent;
     battleState.turnCount++;
     battleState.lastMessage = lastResponse;
@@ -415,6 +419,7 @@ function switchTurn(lastResponse) {
     // Add a small delay before the next agent responds
     setTimeout(() => {
         if (battleState.isRunning && !battleState.isPaused) {
+            // Send the message to the agent that should respond next
             sendMessageToAgent(battleState.currentAgent, lastResponse);
         }
     }, 2000);
