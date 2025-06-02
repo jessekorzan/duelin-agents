@@ -1,0 +1,157 @@
+
+/* Setup Screen Styles */
+.setup-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--blueLight) 0%, var(--purpleLight) 100%);
+    padding: 2rem;
+}
+
+.setup-container {
+    background: var(--white);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+.setup-container h1 {
+    text-align: center;
+    color: var(--black);
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.setup-container h2 {
+    text-align: center;
+    color: var(--gray);
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.agent-config {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.agent-section {
+    padding: 1.5rem;
+    border: 2px solid var(--blueLight);
+    border-radius: 0.75rem;
+    background: var(--white);
+}
+
+.agent-section:first-child {
+    border-color: var(--blue);
+}
+
+.agent-section:last-child {
+    border-color: var(--purple);
+}
+
+.agent-section h3 {
+    margin: 0 0 1rem 0;
+    color: var(--black);
+}
+
+.agent-section input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--boxShadow);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.agent-section input:last-child {
+    margin-bottom: 0;
+}
+
+.starter-config {
+    margin-bottom: 2rem;
+}
+
+.starter-config h3 {
+    margin-bottom: 1rem;
+    color: var(--black);
+}
+
+.starter-config textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 1px solid var(--boxShadow);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.starter-agent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.starter-agent label {
+    font-weight: 600;
+    color: var(--black);
+}
+
+.starter-agent select {
+    padding: 0.5rem;
+    border: 1px solid var(--boxShadow);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.start-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .setup-screen {
+        padding: 1rem;
+    }
+    
+    .setup-container {
+        padding: 1.5rem;
+    }
+    
+    .agent-config {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .setup-container h1 {
+        font-size: 2rem;
+    }
+}

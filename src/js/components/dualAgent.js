@@ -1,0 +1,268 @@
+
+import { getSessionID } from '../core/session.js';
+
+let agentConfig = {
+    left: { webhook: '', imageWebhook: '' },
+    right: { webhook: '', imageWebhook: '' },
+    starterPrompt: '',
+    startingAgent: 'left'
+};
+
+let battleState = {
+    isRunning: false,
+    isPaused: false,
+    turnCount: 0,
+    currentAgent: 'left',
+    lastMessage: ''
+};
+
+export function setupDualAgentApp() {
+    setupSetupScreen();
+    setupBattleControls();
+}
+
+function setupSetupScreen() {
+    const startButton = document.getElementById('start-battle');
+    
+    startButton.addEventListener('click', () => {
+        if (validateConfig()) {
+            saveConfig();
+            startBattle();
+        } else {
+            alert('Please fill in all required fields!');
+        }
+    });
+}
+
+function validateConfig() {
+    const leftWebhook = document.getElementById('left-webhook').value;
+    const rightWebhook = document.getElementById('right-webhook').value;
+    const starterPrompt = document.getElementById('starter-prompt').value;
+    
+    return leftWebhook && rightWebhook && starterPrompt;
+}
+
+function saveConfig() {
+    agentConfig.left.webhook = document.getElementById('left-webhook').value;
+    agentConfig.left.imageWebhook = document.getElementById('left-image-webhook').value;
+    agentConfig.right.webhook = document.getElementById('right-webhook').value;
+    agentConfig.right.imageWebhook = document.getElementById('right-image-webhook').value;
+    agentConfig.starterPrompt = document.getElementById('starter-prompt').value;
+    agentConfig.startingAgent = document.getElementById('starting-agent').value;
+}
+
+function startBattle() {
+    // Hide setup screen, show chat interface
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('chat-interface').style.display = 'flex';
+    
+    // Initialize battle state
+    battleState.isRunning = true;
+    battleState.isPaused = false;
+    battleState.turnCount = 0;
+    battleState.currentAgent = agentConfig.startingAgent;
+    battleState.lastMessage = agentConfig.starterPrompt;
+    
+    updateTurnDisplay();
+    
+    // Start the conversation
+    setTimeout(() => {
+        sendMessageToAgent(battleState.currentAgent, agentConfig.starterPrompt);
+    }, 1000);
+}
+
+function setupBattleControls() {
+    const pauseButton = document.getElementById('pause-battle');
+    const resetButton = document.getElementById('reset-battle');
+    
+    pauseButton.addEventListener('click', () => {
+        battleState.isPaused = !battleState.isPaused;
+        pauseButton.textContent = battleState.isPaused ? '▶️ Resume' : '⏸️ Pause';
+        updateAgentStatus();
+    });
+    
+    resetButton.addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset the battle?')) {
+            resetBattle();
+        }
+    });
+}
+
+function resetBattle() {
+    battleState.isRunning = false;
+    battleState.isPaused = false;
+    battleState.turnCount = 0;
+    
+    // Clear chat outputs
+    document.getElementById('left-output').innerHTML = '';
+    document.getElementById('right-output').innerHTML = '';
+    
+    // Hide chat interface, show setup screen
+    document.getElementById('chat-interface').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'flex';
+    
+    // Reset pause button
+    document.getElementById('pause-battle').textContent = '⏸️ Pause';
+}
+
+async function sendMessageToAgent(agent, message) {
+    if (!battleState.isRunning || battleState.isPaused) return;
+    
+    const config = agentConfig[agent];
+    const outputElement = document.getElementById(`${agent}-output`);
+    const spinnerElement = document.querySelector(`.${agent}-spinner`);
+    const statusElement = document.getElementById(`${agent}-status`);
+    
+    // Update status and show spinner
+    statusElement.textContent = 'Thinking...';
+    spinnerElement.style.display = 'block';
+    
+    try {
+        const response = await fetch(config.webhook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chatInput: message,
+                action: "sendMessage",
+                sessionId: getSessionID() + `-${agent}`
+            })
+        });
+        
+        const reader = response.body.getReader();
+        let responseText = '';
+        
+        await readAgentStream(reader, (chunk) => {
+            responseText += chunk;
+            // Update the message in real-time
+            updateAgentMessage(agent, responseText);
+        });
+        
+        // Hide spinner and update status
+        spinnerElement.style.display = 'none';
+        statusElement.textContent = 'Ready';
+        
+        // Switch to the other agent
+        switchTurn(responseText);
+        
+    } catch (error) {
+        console.error(`Error with ${agent} agent:`, error);
+        spinnerElement.style.display = 'none';
+        statusElement.textContent = 'Error';
+        
+        // Add error message to chat
+        addMessageToChat(agent, `❌ Error: ${error.message}`);
+    }
+}
+
+function readAgentStream(reader, onChunk) {
+    const decoder = new TextDecoder();
+    
+    return new Promise((resolve, reject) => {
+        function processStream() {
+            reader.read().then(({ done, value }) => {
+                if (done) {
+                    resolve();
+                    return;
+                }
+                
+                const chunk = decoder.decode(value);
+                try {
+                    const payload = JSON.parse(chunk);
+                    onChunk(payload.data || chunk);
+                } catch (error) {
+                    onChunk(chunk);
+                }
+                
+                processStream();
+            }).catch(reject);
+        }
+        
+        processStream();
+    });
+}
+
+function updateAgentMessage(agent, message) {
+    const outputElement = document.getElementById(`${agent}-output`);
+    
+    // Remove the last message if it exists
+    const lastMessage = outputElement.querySelector('.agent-message:last-child');
+    if (lastMessage && lastMessage.dataset.temp === 'true') {
+        lastMessage.remove();
+    }
+    
+    // Add the updated message
+    const messageElement = document.createElement('div');
+    messageElement.className = 'agent-message';
+    messageElement.dataset.temp = 'true';
+    messageElement.innerHTML = message;
+    outputElement.appendChild(messageElement);
+    
+    // Scroll to bottom
+    outputElement.scrollTop = outputElement.scrollHeight;
+}
+
+function addMessageToChat(agent, message) {
+    const outputElement = document.getElementById(`${agent}-output`);
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = 'agent-message';
+    messageElement.innerHTML = message;
+    outputElement.appendChild(messageElement);
+    
+    // Scroll to bottom
+    outputElement.scrollTop = outputElement.scrollHeight;
+}
+
+function switchTurn(lastResponse) {
+    if (!battleState.isRunning || battleState.isPaused) return;
+    
+    // Make the last message permanent
+    const currentOutput = document.getElementById(`${battleState.currentAgent}-output`);
+    const lastMessage = currentOutput.querySelector('.agent-message:last-child');
+    if (lastMessage) {
+        lastMessage.dataset.temp = 'false';
+    }
+    
+    // Switch to the other agent
+    battleState.currentAgent = battleState.currentAgent === 'left' ? 'right' : 'left';
+    battleState.turnCount++;
+    battleState.lastMessage = lastResponse;
+    
+    updateTurnDisplay();
+    updateAgentStatus();
+    
+    // Add a small delay before the next agent responds
+    setTimeout(() => {
+        if (battleState.isRunning && !battleState.isPaused) {
+            sendMessageToAgent(battleState.currentAgent, lastResponse);
+        }
+    }, 2000);
+}
+
+function updateTurnDisplay() {
+    document.getElementById('turn-count').textContent = battleState.turnCount;
+}
+
+function updateAgentStatus() {
+    const leftStatus = document.getElementById('left-status');
+    const rightStatus = document.getElementById('right-status');
+    
+    if (battleState.isPaused) {
+        leftStatus.textContent = 'Paused';
+        rightStatus.textContent = 'Paused';
+    } else if (!battleState.isRunning) {
+        leftStatus.textContent = 'Ready';
+        rightStatus.textContent = 'Ready';
+    } else {
+        leftStatus.textContent = battleState.currentAgent === 'left' ? 'Active' : 'Waiting';
+        rightStatus.textContent = battleState.currentAgent === 'right' ? 'Active' : 'Waiting';
+    }
+}
+
+// Expose functions for dev tools
+window.duelAgents = {
+    agentConfig,
+    battleState,
+    sendMessageToAgent,
+    resetBattle
+};
