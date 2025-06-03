@@ -32,19 +32,15 @@
                     <h3>🤖 Agent Left</h3>
                     <input type="text" id="left-name" placeholder="Agent name (e.g., Claude, GPT-4)" />
                     <input type="url" id="left-webhook" placeholder="Chat webhook URL" />
+                    <input type="text" id="left-webhook-variable" placeholder="Message variable name (default: chatInput)" value="chatInput" />
                 </div>
                 
                 <div class="agent-section">
                     <h3>🤖 Agent Right</h3>
                     <input type="text" id="right-name" placeholder="Agent name (e.g., Claude, GPT-4)" />
                     <input type="url" id="right-webhook" placeholder="Chat webhook URL" />
+                    <input type="text" id="right-webhook-variable" placeholder="Message variable name (default: chatInput)" value="chatInput" />
                 </div>
-            </div>
-            
-            <div class="webhook-config">
-                <h3>⚙️ Webhook Configuration</h3>
-                <input type="text" id="webhook-variable" placeholder="Message variable name (default: chatInput)" value="chatInput" />
-                <small>This is the variable name your n8n workflow expects for the message content</small>
             </div>
             
             <div class="starter-config">
