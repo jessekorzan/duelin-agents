@@ -104,7 +104,7 @@
 
 .agent-status.thinking {
     background-color: #ff4444;
-    color: white;
+    color: white !important;
 }
 
 .agent-status.waiting {
