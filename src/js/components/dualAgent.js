@@ -1,10 +1,11 @@
 import { getSessionID } from '../core/session.js';
 
 let agentConfig = {
-    left: { name: '', webhook: '', imageWebhook: '' },
-    right: { name: '', webhook: '', imageWebhook: '' },
+    left: { name: '', webhook: '' },
+    right: { name: '', webhook: '' },
     starterPrompt: '',
-    startingAgent: 'left'
+    startingAgent: 'left',
+    webhookVariable: 'chatInput'
 };
 
 let battleState = {
@@ -35,9 +36,9 @@ function setupSetupScreen() {
 
     // Add auto-save on input changes for better UX
     const inputs = [
-        'left-name', 'left-webhook', 'left-image-webhook', 
-        'right-name', 'right-webhook', 'right-image-webhook',
-        'starter-prompt', 'starting-agent'
+        'left-name', 'left-webhook', 
+        'right-name', 'right-webhook',
+        'starter-prompt', 'starting-agent', 'webhook-variable'
     ];
 
     inputs.forEach(id => {
@@ -55,16 +56,15 @@ function saveCurrentFormState() {
     const currentConfig = {
         left: {
             name: document.getElementById('left-name').value,
-            webhook: document.getElementById('left-webhook').value,
-            imageWebhook: document.getElementById('left-image-webhook').value
+            webhook: document.getElementById('left-webhook').value
         },
         right: {
             name: document.getElementById('right-name').value,
-            webhook: document.getElementById('right-webhook').value,
-            imageWebhook: document.getElementById('right-image-webhook').value
+            webhook: document.getElementById('right-webhook').value
         },
         starterPrompt: document.getElementById('starter-prompt').value,
-        startingAgent: document.getElementById('starting-agent').value
+        startingAgent: document.getElementById('starting-agent').value,
+        webhookVariable: document.getElementById('webhook-variable').value || 'chatInput'
     };
 
     localStorage.setItem('duelAgentsConfig', JSON.stringify(currentConfig));
@@ -82,16 +82,15 @@ function saveConfig() {
     agentConfig = {
         left: {
             name: document.getElementById('left-name').value || 'Agent Left',
-            webhook: document.getElementById('left-webhook').value,
-            imageWebhook: document.getElementById('left-image-webhook').value || document.getElementById('left-webhook').value
+            webhook: document.getElementById('left-webhook').value
         },
         right: {
             name: document.getElementById('right-name').value || 'Agent Right',
-            webhook: document.getElementById('right-webhook').value,
-            imageWebhook: document.getElementById('right-image-webhook').value || document.getElementById('right-webhook').value
+            webhook: document.getElementById('right-webhook').value
         },
         starterPrompt: document.getElementById('starter-prompt').value,
-        startingAgent: document.getElementById('starting-agent').value
+        startingAgent: document.getElementById('starting-agent').value,
+        webhookVariable: document.getElementById('webhook-variable').value || 'chatInput'
     };
 
     // Save to localStorage
@@ -160,6 +159,29 @@ function startBattle() {
     setTimeout(() => {
         sendMessageToAgent(respondingAgent, agentConfig.starterPrompt);
     }, 1000);
+}
+
+function loadSavedConfig() {
+    const saved = localStorage.getItem('duelAgentsConfig');
+    if (saved) {
+        try {
+            const config = JSON.parse(saved);
+            
+            // Load agent configs
+            document.getElementById('left-name').value = config.left?.name || '';
+            document.getElementById('left-webhook').value = config.left?.webhook || '';
+            document.getElementById('right-name').value = config.right?.name || '';
+            document.getElementById('right-webhook').value = config.right?.webhook || '';
+            
+            // Load other settings
+            document.getElementById('starter-prompt').value = config.starterPrompt || '';
+            document.getElementById('starting-agent').value = config.startingAgent || 'left';
+            document.getElementById('webhook-variable').value = config.webhookVariable || 'chatInput';
+            
+        } catch (error) {
+            console.error('Error loading saved config:', error);
+        }
+    }
 }
 
 function setupBattleControls() {
@@ -252,14 +274,16 @@ async function sendMessageToAgent(agent, message) {
     statusElement.style.animation = 'thinking 0.75s forwards ease-in-out infinite';
 
     try {
+        const requestBody = {
+            action: "sendMessage",
+            sessionId: getSessionID() + `-${agent}`
+        };
+        requestBody[agentConfig.webhookVariable] = message;
+
         const response = await fetch(config.webhook, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chatInput: message,
-                action: "sendMessage",
-                sessionId: getSessionID() + `-${agent}`
-            })
+            body: JSON.stringify(requestBody)
         });
 
         const reader = response.body.getReader();

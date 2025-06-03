@@ -132,6 +132,34 @@
     color: white;
 }
 
+.webhook-config {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 2px solid var(--blueLight);
+    border-radius: 0.375rem;
+    background: var(--white);
+}
+
+.webhook-config h3 {
+    margin: 0 0 1rem 0;
+    color: var(--black);
+}
+
+.webhook-config input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--boxShadow);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.webhook-config small {
+    color: var(--gray);
+    font-size: 0.875rem;
+    display: block;
+}
+
 .starter-config {
     margin-bottom: 2rem;
 }
