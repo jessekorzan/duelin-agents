@@ -1,16 +1,16 @@
 :root {
-    --black: #101114;
-    --white: #FDFDFF;
-    --gray: #6B7280;
+    --black: #FDFDFF;
+    --white: #1a1a1a;
+    --gray: #9CA3AF;
     --blue: #87CEEB;
     --blueDark: #4682B4;
-    --blueLight: #F0F8FF;
+    --blueLight: #2a3441;
     --purple: #20B2AA;
     --purpleDark: #008B8B;
-    --purpleLight: #F0FFFF;
+    --purpleLight: #1f3332;
     --green: #7DF1B6;
     --greenDark: #10B981;
-    --greenLight: #ECFDF5;
-    --boxShadow: rgba(143, 151, 186, 0.24);
+    --greenLight: #1a2e28;
+    --boxShadow: rgba(0, 0, 0, 0.3);
     --text: var(--black);
 }
