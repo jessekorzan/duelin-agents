@@ -350,3 +350,72 @@ div.out > div span {
     border-radius: 0.25rem;
     border: 1px solid var(--boxShadow);
 }
+
+/* HTML content styling within agent messages */
+.agent-message h1,
+.agent-message h2,
+.agent-message h3,
+.agent-message h4,
+.agent-message h5,
+.agent-message h6 {
+    margin: 1rem 0 0.5rem 0;
+    line-height: 1.2;
+}
+
+.agent-message h1 { font-size: 1.5rem; }
+.agent-message h2 { font-size: 1.3rem; }
+.agent-message h3 { font-size: 1.1rem; }
+
+.agent-message p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.agent-message ul,
+.agent-message ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.agent-message li {
+    margin: 0.25rem 0;
+}
+
+.agent-message code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.125rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.agent-message pre {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin: 0.5rem 0;
+    overflow-x: auto;
+}
+
+.agent-message pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+}
+
+.agent-message strong {
+    font-weight: 600;
+}
+
+.agent-message em {
+    font-style: italic;
+}
+
+.agent-message a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+.agent-message a:hover {
+    color: var(--blueDark);
+}

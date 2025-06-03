@@ -145,7 +145,7 @@ function loadSavedConfig() {
     if (saved) {
         try {
             const config = JSON.parse(saved);
-            
+
             // Load agent configs
             document.getElementById('left-name').value = config.left?.name || '';
             document.getElementById('left-webhook').value = config.left?.webhook || '';
@@ -153,11 +153,11 @@ function loadSavedConfig() {
             document.getElementById('right-name').value = config.right?.name || '';
             document.getElementById('right-webhook').value = config.right?.webhook || '';
             document.getElementById('right-webhook-variable').value = config.right?.webhookVariable || 'chatInput';
-            
+
             // Load other settings
             document.getElementById('starter-prompt').value = config.starterPrompt || '';
             document.getElementById('starting-agent').value = config.startingAgent || 'left';
-            
+
         } catch (error) {
             console.error('Error loading saved config:', error);
         }
@@ -344,7 +344,7 @@ function updateAgentMessage(agent, message) {
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message outgoing';
     messageElement.dataset.temp = 'true';
-    messageElement.innerHTML = message;
+    messageElement.innerHTML = convertMarkdownToHTML(message);
 
     // Add webhook URL for debugging
     const webhookElement = document.createElement('div');
@@ -380,7 +380,7 @@ function addMessageToChat(agent, message) {
     // Create message element
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message outgoing';
-    messageElement.innerHTML = message;
+    messageElement.innerHTML = convertMarkdownToHTML(message);
 
     messageContainer.appendChild(labelElement);
     messageContainer.appendChild(messageElement);
@@ -408,7 +408,7 @@ function addIncomingMessageToChat(agent, message, fromAgent = null) {
     // Create message element
     const messageElement = document.createElement('div');
     messageElement.className = 'agent-message incoming';
-    messageElement.innerHTML = message;
+    messageElement.innerHTML = convertMarkdownToHTML(message);
 
     // Add webhook URL for debugging (only if we have a valid sending agent)
     if (agentConfig[sendingAgent]?.webhook) {
@@ -513,6 +513,59 @@ function updateAgentNames() {
 
     leftNameElement.textContent = `🤖 ${leftName}`;
     rightNameElement.textContent = `🤖 ${rightName}`;
+}
+
+function convertMarkdownToHTML(text) {
+    // Handle HTML input - if it's already HTML, return as-is
+    if (text.includes('<') && text.includes('>')) {
+        return text;
+    }
+
+    // Convert markdown to HTML
+    let html = text;
+
+    // Headers
+    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+    // Bold
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+    // Italic
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+
+    // Code blocks
+    html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+    // Inline code
+    html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+    // Line breaks - convert double line breaks to paragraphs
+    html = html.replace(/\n\n/g, '</p><p>');
+    html = '<p>' + html + '</p>';
+
+    // Single line breaks within paragraphs
+    html = html.replace(/\n/g, '<br>');
+
+    // Clean up empty paragraphs
+    html = html.replace(/<p><\/p>/g, '');
+    html = html.replace(/<p>\s*<\/p>/g, '');
+
+    // Lists
+    html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
+    html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
+    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+
+    // Numbered lists
+    html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>');
+
+    return html;
 }
 
 // Expose functions for dev tools
