@@ -141,10 +141,15 @@ function startBattle() {
     document.getElementById('left-output').innerHTML = '';
     document.getElementById('right-output').innerHTML = '';
 
-    // Show the starter prompt - it should appear as incoming on BOTH sides
-    // since it's the initial prompt that starts the conversation
-    addIncomingMessageToChat('left', agentConfig.starterPrompt, agentConfig.startingAgent);
-    addIncomingMessageToChat('right', agentConfig.starterPrompt, agentConfig.startingAgent);
+    // Show the starter prompt - it should appear as outgoing on the starting agent's side
+    // and incoming on the other agent's side.
+    if (agentConfig.startingAgent === 'left') {
+        addMessageToChat('left', agentConfig.starterPrompt);
+        addIncomingMessageToChat('right', agentConfig.starterPrompt, 'left');
+    } else {
+        addMessageToChat('right', agentConfig.starterPrompt);
+        addIncomingMessageToChat('left', agentConfig.starterPrompt, 'right');
+    }
 
     updateTurnDisplay();
 
