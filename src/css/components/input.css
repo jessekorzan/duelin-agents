@@ -18,7 +18,7 @@ div.in {
     justify-content: flex-end;
     padding: 1px;
     grid-gap: 0px;
-    border-radius: 0.6rem;
+    border-radius: 0.3rem;
 }
 
 div.in:before {
@@ -29,7 +29,7 @@ div.in:before {
     left: -2px;
     width: calc(100% + 4px);
     height: calc(100% + 4px);
-    border-radius: 0.6rem;
+    border-radius: 0.3rem;
     background-image: linear-gradient(to right, #7DF1B6, #3751FF);
 }
 
@@ -38,12 +38,12 @@ textarea {
     border: 0px;
     padding: 1.5rem 5rem 0 1.5rem;
     resize: none;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     background: var(--white);
     color: var(--black);
     transition: all 230ms ease-in-out;
     height: clamp(40px, 420px, 80px);
-    border-radius: 8px 0px 0px 8px;
+    border-radius: 4px 0px 0px 4px;
 }
 
 textarea:focus {
@@ -63,7 +63,7 @@ div.in button {
     aspect-ratio: 1;
     background: var(--white);
     border: 2px solid var(--white);
-    border-radius: 0px 8px 8px 0px;
+    border-radius: 0px 4px 4px 0px;
     cursor: pointer;
     transition: all 230ms ease-in-out;
 }
