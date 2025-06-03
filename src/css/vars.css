@@ -2,15 +2,15 @@
     --black: #101114;
     --white: #FDFDFF;
     --gray: #6B7280;
-    --blue: #F4A261;
-    --blueDark: #E76F51;
-    --blueLight: #FFF4F0;
-    --purple: #F8A5C2;
-    --purpleDark: #E85A8B;
-    --purpleLight: #FDF2F8;
+    --blue: #1B365D;
+    --blueDark: #0F1F3A;
+    --blueLight: #E8EDF4;
+    --purple: #B8621C;
+    --purpleDark: #8B4513;
+    --purpleLight: #F5E6D3;
     --green: #7DF1B6;
     --greenDark: #10B981;
     --greenLight: #ECFDF5;
-    --boxShadow: rgba(244, 162, 97, 0.24);
+    --boxShadow: rgba(27, 54, 93, 0.24);
     --text: var(--black);
 }
