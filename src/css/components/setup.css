@@ -13,10 +13,9 @@
     background: var(--white);
     border-radius: 0.5rem;
     padding: 2rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     max-width: 800px;
     width: 100%;
-    border: 1px solid rgba(135, 206, 235, 0.2);
 }
 
 .setup-container h1 {
@@ -88,12 +87,6 @@
     border: 1px solid var(--boxShadow);
     border-radius: 0.25rem;
     font-size: 1rem;
-    background: #2a2a2a;
-    color: var(--black);
-}
-
-.agent-section input::placeholder {
-    color: var(--gray);
 }
 
 .agent-section input:last-child {
@@ -111,7 +104,7 @@
 
 .agent-status.thinking {
     background-color: #ff4444;
-    color: white !important;
+    color: white;
 }
 
 .agent-status.waiting {
@@ -158,12 +151,6 @@
     font-family: inherit;
     resize: vertical;
     margin-bottom: 1rem;
-    background: #2a2a2a;
-    color: var(--black);
-}
-
-.starter-config textarea::placeholder {
-    color: var(--gray);
 }
 
 .starter-agent {
@@ -182,8 +169,6 @@
     border: 1px solid var(--boxShadow);
     border-radius: 0.25rem;
     font-size: 1rem;
-    background: #2a2a2a;
-    color: var(--black);
 }
 
 .start-button {
