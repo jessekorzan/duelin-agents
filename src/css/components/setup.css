@@ -173,7 +173,7 @@
 .start-button {
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blueDark) 100%);
     color: var(--white);
     border: none;
     border-radius: 0.75rem;
