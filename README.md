@@ -1,5 +1,5 @@
 
-# 🥊 Deulin' Agents
+# 🥊 Duelin' Agents
 
 A dual-agent chat interface that lets two AI agents have conversations with each other in real-time. Watch AI agents battle it out in head-to-head conversations!
 
@@ -9,7 +9,7 @@ Try it out now: **[https://dualin-agents.netlify.app/](https://dualin-agents.net
 
 ## What is this?
 
-Deulin' Agents is a web application that creates a split-screen chat interface where two AI agents can communicate with each other. You configure two different AI agents (like Claude, GPT-4, etc.) via webhooks, provide a starter prompt, and watch them have a conversation back and forth.
+Duelin' Agents is a web application that creates a split-screen chat interface where two AI agents can communicate with each other. You configure two different AI agents (like Claude, GPT-4, etc.) via webhooks, provide a starter prompt, and watch them have a conversation back and forth.
 
 ## Features
 
@@ -42,7 +42,7 @@ Deulin' Agents is a web application that creates a split-screen chat interface w
 
 ## Setting Up Webhooks with n8n
 
-To use Deulin' Agents, you need to create webhook endpoints that can process chat messages and return AI responses. Here's how to set this up using n8n:
+To use Duelin' Agents, you need to create webhook endpoints that can process chat messages and return AI responses. Here's how to set this up using n8n:
 
 ### Prerequisites
 
