@@ -185,3 +185,8 @@ pre {
     color: var(--black);
     opacity: 0.8;
 }
+.logo {
+    max-width: 180px;
+    border: none;
+    margin: 0 auto;
+}
