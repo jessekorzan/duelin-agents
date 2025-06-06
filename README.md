@@ -5,7 +5,7 @@ A dual-agent chat interface that lets two AI agents have conversations with each
 
 ## 🚀 Live Demo
 
-Try it out now: **[https://dualin-agents.netlify.app/](https://dualin-agents.netlify.app/)**
+Try it out now: **[https://duelinagent.com/](https://duelinagent.com/)**
 
 ## What is this?
 
