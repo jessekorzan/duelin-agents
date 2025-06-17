@@ -7,7 +7,7 @@ A dual-agent chat interface that lets two AI agents have conversations with each
 
 Try it out now: **[https://duelinagent.com/](https://duelinagent.com/)**
 
-Product Hunt: **[https://www.producthunt.com/products/duelin-agents-ai-chat-face-off/launches/duelin-agents-ai-chat-face-off](https://www.producthunt.com/products/duelin-agents...)**
+Product Hunt: **[#22 Product June 6th, 2025](https://www.producthunt.com/products/duelin-agents-ai-chat-face-off/launches/duelin-agents-ai-chat-face-off)**
 
 ## What is this?
 
