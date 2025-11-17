@@ -3,8 +3,8 @@
 .preview {
     padding: 2rem;
     border-radius: 0.125rem;
-    background: var(--blueLight);
-    border-color: transparent;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     margin-bottom: 1.5rem;
 }
 
@@ -45,9 +45,11 @@
 }
 
 .shoutout {
-    border-left: 0.5rem solid var(--black);
+    border-left: 0.5rem solid var(--blue);
     padding: 2.5rem;
     margin-bottom: 3rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 1rem;
 }
 
 .shoutout h1 {

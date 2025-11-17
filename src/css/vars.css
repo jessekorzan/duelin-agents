@@ -1,16 +1,21 @@
 :root {
-    --black: #101114;
-    --white: #FDFDFF;
-    --gray: #6B7280;
-    --blue: #1B365D;
-    --blueDark: #0F1F3A;
-    --blueLight: #E8EDF4;
-    --purple: #FA8F23;
-    --purpleDark: #8B4513;
-    --purpleLight: #F5E6D3;
-    --green: #7DF1B6;
-    --greenDark: #10B981;
-    --greenLight: #ECFDF5;
-    --boxShadow: rgba(27, 54, 93, 0.24);
-    --text: var(--black);
+    --black: #050506;
+    --white: #101217;
+    --gray: #b3b0a5;
+    --blue: #f6d96b;
+    --blueDark: #f0b04d;
+    --blueLight: #1a1c23;
+    --purple: #ffac4b;
+    --purpleDark: #ff7e3a;
+    --purpleLight: #07090f;
+    --green: #4af09e;
+    --greenDark: #179e65;
+    --greenLight: #1f2a21;
+    --boxShadow: rgba(0, 0, 0, 0.55);
+    --text: #f7f3e3;
+    --textMuted: #a2a1a6;
+    --card: rgba(15, 16, 22, 0.95);
+    --cardSoft: rgba(22, 24, 31, 0.8);
+    --glow: rgba(246, 217, 107, 0.35);
+    --grad: radial-gradient(circle at top left, rgba(255, 214, 117, 0.12), transparent 45%), radial-gradient(circle at 80% 20%, rgba(235, 145, 67, 0.18), transparent 40%), linear-gradient(135deg, #050506 0%, #07090f 80%);
 }

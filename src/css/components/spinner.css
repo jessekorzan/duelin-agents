@@ -45,7 +45,7 @@ main.processing .prompt {
     75% {
         left: 50%;
         width: 60px;
-        background: var(--blue);
+        background: var(--purple);
     }
 
     100% {
@@ -58,17 +58,17 @@ main.processing .prompt {
 @keyframes thinking {
     0% {
         opacity: 0.88;
-        color: var(--black);
+        color: var(--text);
     }
 
     50% {
         opacity: 0.2;
-        color: var(--black);
+        color: var(--text);
     }
 
     100% {
         opacity: 0.88;
-        color: var(--black);
+        color: var(--text);
     }
 }
 

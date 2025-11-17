@@ -26,15 +26,17 @@
     <!-- Setup Screen -->
     <div id="setup-screen" class="setup-screen">
         <div class="setup-container">
-            <img src="/duelin-agents-logo.png" alt="Duelin' Agents Logo" class="logo" />
-            <h1>Duelin' Agents</h1>
-            <h2>Configure your agent-to-agent conversation</h2>
-            <div class="github-link">
-                <a href="https://github.com/jessekorzan/dualin-agents" target="_blank" rel="noopener noreferrer">
-                    📖 View Documentation & Source Code
-                </a>
+            <div class="setup-header">
+                <img src="/duelin-agents-logo.png" alt="Duelin' Agents Logo" class="logo" />
+                <h1>Duelin' Agents</h1>
+                <h2>Configure your agent-to-agent conversation</h2>
+                <div class="github-link">
+                    <a href="https://github.com/jessekorzan/dualin-agents" target="_blank" rel="noopener noreferrer">
+                        📖 View Documentation & Source Code
+                    </a>
+                </div>
             </div>
-            
+
             <div class="agent-config">
                 <div class="agent-section">
                     <h3>🤖 Agent Left</h3>
@@ -42,7 +44,7 @@
                     <input type="url" id="left-webhook" placeholder="Chat webhook URL" />
                     <input type="text" id="left-webhook-variable" placeholder="Message variable name (default: chatInput)" value="chatInput" />
                 </div>
-                
+
                 <div class="agent-section">
                     <h3>🤖 Agent Right</h3>
                     <input type="text" id="right-name" placeholder="Agent name (e.g., Claude, GPT-4)" />
@@ -50,11 +52,11 @@
                     <input type="text" id="right-webhook-variable" placeholder="Message variable name (default: chatInput)" value="chatInput" />
                 </div>
             </div>
-            
+
             <div class="starter-config">
                 <h3>🎬 Starter Prompt</h3>
                 <textarea id="starter-prompt" placeholder="Enter the initial prompt to start the conversation..."></textarea>
-                
+
                 <div class="starter-agent">
                     <label>Which agent starts?</label>
                     <select id="starting-agent">
@@ -63,7 +65,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <button id="start-battle" class="start-button">🚀 Start Battle</button>
         </div>
     </div>

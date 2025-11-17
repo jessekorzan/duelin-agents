@@ -1,53 +1,36 @@
 
 /* Input container and textarea styles */
 div.in {
-    position: relative;
-    height: auto;
-    grid-gap: 0.5rem;
     position: sticky;
-    bottom: 4rem;
-    background: white;
-    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #7DF1B6, #3751FF);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    background-filter: blur(12px);
-    box-shadow: 0px 0px 66px 44px var(--purpleLight);
+    bottom: 2rem;
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: end;
-    justify-content: flex-end;
-    padding: 1px;
-    grid-gap: 0px;
-    border-radius: 0.3rem;
-}
-
-div.in:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: -2px;
-    left: -2px;
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    border-radius: 0.3rem;
-    background-image: linear-gradient(to right, #7DF1B6, #3751FF);
+    gap: 0.5rem;
+    background: rgba(12, 13, 18, 0.95);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.5rem;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(10px);
 }
 
 textarea {
     width: 100%;
     border: 0px;
-    padding: 1.5rem 5rem 0 1.5rem;
+    padding: 1rem 1.5rem;
     resize: none;
-    border-radius: 0.25rem;
-    background: var(--white);
-    color: var(--black);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text);
     transition: all 230ms ease-in-out;
     height: clamp(40px, 420px, 80px);
-    border-radius: 4px 0px 0px 4px;
+    border: 1px solid transparent;
 }
 
 textarea:focus {
     outline: none;
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
 
 div.in textarea,
@@ -61,24 +44,21 @@ div.in button {
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;
-    background: var(--white);
-    border: 2px solid var(--white);
-    border-radius: 0px 4px 4px 0px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 230ms ease-in-out;
+    box-shadow: 0 12px 25px rgba(255, 182, 99, 0.45);
 }
 
 div.in button svg {
-    fill: var(--blue);
+    fill: #1f1408;
     pointer-events: none;
 }
 
 div.in button:hover {
-    background: var(--blue);
-}
-
-div.in button:hover svg {
-    fill: var(--white);
+    transform: translateY(-1px);
 }
 
 div.in:has(textarea:focus) textarea,
